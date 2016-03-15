@@ -55,6 +55,8 @@ mesos_services = dict(
                            '--no-switch_user',
                            '--work_dir=' + work_dir,
                            '--executor_shutdown_grace_period=60secs',
+                           "--resources=disk:$(python -c 'import os; s=os.statvfs(\"%s\"); "
+                           "f=s.f_frsize*s.f_bavail>>20; print f-min(f/2,5120)')" % work_dir,
                            '$(cat /var/lib/mesos/slave_args)' ) ] )
 
 
