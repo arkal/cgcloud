@@ -38,9 +38,9 @@ help:
 python=python2.7
 tests=src
 
-develop_projects=lib core jenkins spark mesos toil
+develop_projects=lib core jenkins spark mesos toil protect
 sdist_projects=lib agent spark-tools mesos-tools
-all_projects=lib core agent jenkins spark spark-tools mesos mesos-tools toil
+all_projects=lib core agent jenkins spark spark-tools mesos mesos-tools toil protect
 
 green=\033[0;32m
 normal=\033[0m
@@ -67,6 +67,7 @@ develop_jenkins: develop_lib develop_core
 develop_mesos: develop_lib develop_core
 develop_spark: develop_lib develop_core
 develop_toil: develop_lib develop_core develop_mesos
+develop_protect: develop_lib develop_core develop_mesos develop_toil
 
 define _sdist
 .PHONY: sdist_$1

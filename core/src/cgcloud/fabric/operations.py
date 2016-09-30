@@ -71,7 +71,8 @@ def join_argv( command ):
     return ' '.join( map( quote, command ) )
 
 
-def virtualenv( name, distributions=None, pip_distribution='pip', executable=None ):
+def virtualenv( name, distributions=None, pip_distribution='pip', executable=None,
+                system_site_packages=False, venv_path=None):
     """
     Installs a set of distributions (aka PyPI packages) into a virtualenv under /opt and
     optionally links an executable from that virtualenv into /usr/loca/bin.
@@ -88,6 +89,9 @@ def virtualenv( name, distributions=None, pip_distribution='pip', executable=Non
     :param executable: The name of an executable in the virtualenv's bin directory that should be
     symlinked into /usr/local/bin. The executable must be provided by the distributions that are
     installed in the virtualenv.
+
+    :param system_site_packages: Should the --system-site-packages be included in the virtualenv
+    call?
     """
     # FIXME: consider --no-pip and easy_installing pip to support downgrades
     if distributions is None:
@@ -97,7 +101,10 @@ def virtualenv( name, distributions=None, pip_distribution='pip', executable=Non
     sudo( fmt( 'mkdir -p {venv}' ) )
     sudo( fmt( 'chown {admin}:{admin} {venv}' ) )
     try:
-        run( fmt( 'virtualenv {venv}' ) )
+        if system_site_packages:
+            run( fmt( 'virtualenv --system-site-packages {venv}' ) )
+        else:
+            run(fmt('virtualenv {venv}'))
         if pip_distribution:
             pip( path=venv + '/bin/pip', args=[ 'install', '--upgrade', pip_distribution ] )
         pip( path=venv + '/bin/pip', args=concat( 'install', distributions ) )
