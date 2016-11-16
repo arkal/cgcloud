@@ -29,7 +29,7 @@ class ProtectBoxSupport( ToilBoxSupport ):
     @fabric_task
     def __install_protect(self):
         virtualenv(name='protect',
-                   distributions=['protect==2.3.1a1.dev103'],
+                   distributions=['protect==2.3.1a1.dev109'],
                    pip_distribution='pip==8.0.2',
                    executable='ProTECT',
                    system_site_packages=True )
