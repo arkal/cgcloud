@@ -20,17 +20,22 @@ class ProtectBoxSupport( ToilBoxSupport ):
     def _post_install_mesos( self ):
         super( ProtectBoxSupport, self )._post_install_mesos( )
         self.__upgrade_s3am( )
+        self.__install_cython( )
         self.__install_protect( )
 
     @fabric_task
     def __upgrade_s3am( self ):
-        sudo( '/opt/s3am/bin/pip install s3am' )
+        sudo( '/opt/s3am/bin/pip install s3am==2.0.1' )
+
+    @fabric_task
+    def __install_cython( self ):
+        sudo( 'pip install Cython' )
 
     @fabric_task
     def __install_protect(self):
         virtualenv(name='protect',
-                   distributions=['protect==2.3.1a1.dev109'],
-                   pip_distribution='pip==8.0.2',
+                   distributions=['protect==2.5.0a1.dev353'],
+                   pip_distribution='pip==9.0.1',
                    executable='ProTECT',
                    system_site_packages=True )
 
@@ -41,7 +46,7 @@ class ProtectBox( ProtectBoxSupport ):
     """
 
     def _toil_pip_args( self ):
-        return [ 'toil[aws,mesos,encryption]==3.3.1' ]
+        return [ 'toil[aws,mesos,encryption]==3.5.2' ]
 
 
 class ProtectLeader( ProtectBox, ClusterLeader ):
