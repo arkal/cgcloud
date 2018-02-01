@@ -81,7 +81,7 @@ class UbuntuBox( AgentBox, CloudInitBox, RcLocalBox ):
         image_id = image_info[ 'ami_id' ]
         return self.ctx.ec2.get_image( image_id )
 
-    apt_get = 'DEBIAN_FRONTEND=readline apt-get -q -y'
+    apt_get = 'DEBIAN_FRONTEND=readline apt-get -q -y --force-yes'
 
     @fabric_task
     def _sync_package_repos( self ):
